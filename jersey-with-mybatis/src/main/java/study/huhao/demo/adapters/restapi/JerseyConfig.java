@@ -6,14 +6,17 @@ import study.huhao.demo.adapters.restapi.providers.EntityExistedExceptionMapper;
 import study.huhao.demo.adapters.restapi.providers.EntityNotFoundExceptionMapper;
 import study.huhao.demo.adapters.restapi.providers.NoNeedToPublishExceptionMapper;
 import study.huhao.demo.adapters.restapi.resources.blog.BlogResource;
+import study.huhao.demo.adapters.restapi.resources.user.UserResource;
 
 @Component
 public class JerseyConfig extends ResourceConfig {
-    public JerseyConfig() {
-        register(EntityNotFoundExceptionMapper.class);
-        register(EntityExistedExceptionMapper.class);
-        register(NoNeedToPublishExceptionMapper.class);
 
-        register(BlogResource.class);
-    }
+  public JerseyConfig() {
+    register(EntityNotFoundExceptionMapper.class);
+    register(EntityExistedExceptionMapper.class);
+    register(NoNeedToPublishExceptionMapper.class);
+
+    register(BlogResource.class);
+    register(UserResource.class);
+  }
 }
