@@ -1,11 +1,13 @@
 package study.huhao.demo.domain.contexts.usercontext.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import study.huhao.demo.domain.core.common.excpetions.EntityNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -58,6 +61,15 @@ class UserServiceTest {
       InOrder inOrder = inOrder(mockUser, userRepository);
       inOrder.verify(mockUser).edit(userName, displayName, signature, email);
       inOrder.verify(userRepository).save(mockUser);
+    }
+
+    @Test
+    void should_throw_exception_when_user_not_found() {
+      String id = UUID.randomUUID().toString();
+      given(userRepository.findById(id)).willReturn(Optional.empty());
+
+      assertThatExceptionOfType(EntityNotFoundException.class)
+          .isThrownBy(() -> userService.edit(id, "username", "displayName", "signature", "email"));
     }
   }
 

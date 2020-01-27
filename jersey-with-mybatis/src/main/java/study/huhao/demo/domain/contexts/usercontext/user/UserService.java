@@ -1,5 +1,7 @@
 package study.huhao.demo.domain.contexts.usercontext.user;
 
+import java.util.UUID;
+import study.huhao.demo.domain.core.common.excpetions.EntityNotFoundException;
 import study.huhao.demo.domain.core.concepts.Service;
 
 public class UserService implements Service {
@@ -17,7 +19,8 @@ public class UserService implements Service {
   }
 
   public void edit(String id, String userName, String displayName, String signature, String email) {
-    User user = userRepository.findById(id).get();
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException(User.class, UUID.fromString(id)));
     user.edit(userName, displayName, signature, email);
     userRepository.save(user);
   }
