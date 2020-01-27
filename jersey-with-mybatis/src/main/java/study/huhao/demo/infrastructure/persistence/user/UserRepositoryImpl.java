@@ -23,6 +23,6 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Optional<User> findById(String id) {
-    return Optional.empty();
+    return userMapper.findById(id).map(UserPO::toDomainModel);
   }
 }
