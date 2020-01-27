@@ -26,6 +26,26 @@ public class UserMapperTest extends MapperTest {
   }
 
   @Test
+  void should_update_success() {
+    String id = UUID.randomUUID().toString();
+    userMapper.insert(new UserPO(id, "username", "displayName", "signature", "email"));
+    String username = "kobe_bryant";
+    String displayName = "Kobe Bryant";
+    String signature = "Mamba out";
+    String email = "kbryant@nba.com";
+    UserPO editedUser = new UserPO(id, username, displayName, signature, email);
+
+    userMapper.update(editedUser);
+
+    assertThat(userMapper.findById(id)).hasValueSatisfying(user -> {
+      assertThat(user.getUserName()).isEqualTo(username);
+      assertThat(user.getDisplayName()).isEqualTo(displayName);
+      assertThat(user.getSignature()).isEqualTo(signature);
+      assertThat(user.getEmail()).isEqualTo(email);
+    });
+  }
+
+  @Test
   void should_find_by_id_success() {
     String username = "username";
     String displayName = "displayName";

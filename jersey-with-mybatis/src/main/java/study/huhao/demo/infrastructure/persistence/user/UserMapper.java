@@ -11,5 +11,7 @@ public interface UserMapper {
 
   void insert(@Param("user") UserPO user);
 
+  void update(@Param("user") UserPO user);
+
   Optional<UserPO> findById(@Param("id") String id);
 }

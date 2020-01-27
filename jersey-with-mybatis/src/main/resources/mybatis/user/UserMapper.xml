@@ -6,6 +6,16 @@
     insert into user (id, user_name, display_name, signature, email)
     values (#{user.id}, #{user.userName}, #{user.displayName}, #{user.signature}, #{user.email});
   </insert>
+
+  <update id="update">
+    update user
+    set user_name = #{user.userName},
+        display_name = #{user.displayName},
+        signature = #{user.signature},
+        email = #{user.email}
+    where id = #{user.id}
+  </update>
+
   <select id="findById" resultMap="records.user">
     select *
     from user
