@@ -65,4 +65,14 @@ public class UserMapperTest extends MapperTest {
       assertThat(user.getEmail()).isEqualTo(email);
     });
   }
+
+  @Test
+  void exist_by_id() {
+    String id = UUID.randomUUID().toString();
+    userMapper.insert(new UserPO(id, "username", "displayName", "signature", "email"));
+
+    boolean exist = userMapper.existById(id);
+
+    assertThat(exist).isTrue();
+  }
 }

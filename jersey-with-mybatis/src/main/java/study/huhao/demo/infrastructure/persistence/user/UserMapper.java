@@ -14,4 +14,6 @@ public interface UserMapper {
   void update(@Param("user") UserPO user);
 
   Optional<UserPO> findById(@Param("id") String id);
+
+  boolean existById(@Param("id") String id);
 }

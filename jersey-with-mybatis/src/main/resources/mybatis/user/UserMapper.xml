@@ -16,6 +16,12 @@
     where id = #{user.id}
   </update>
 
+  <select id="existById" resultType="boolean">
+    select count(id)
+    from user
+    where id = #{id}
+  </select>
+
   <select id="findById" resultMap="records.user">
     select *
     from user
