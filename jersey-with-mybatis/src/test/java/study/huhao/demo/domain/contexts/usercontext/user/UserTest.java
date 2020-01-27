@@ -26,4 +26,24 @@ class UserTest {
       assertThat(user.getEmail()).isEqualTo(email);
     }
   }
+
+  @Nested
+  class editUser {
+
+    @Test
+    void should_edit_user_success() {
+      User user = new User("username", "displayName", "signature", "email");
+      String editedUsername = "kobe_bryant";
+      String editedDisplayName = "Kobe Bryant";
+      String editedSignature = "Mamba out";
+      String editedEmail = "kbryant@nba.com";
+
+      user.edit(editedUsername, editedDisplayName, editedSignature, editedEmail);
+
+      assertThat(user.getUserName()).isEqualTo(editedUsername);
+      assertThat(user.getDisplayName()).isEqualTo(editedDisplayName);
+      assertThat(user.getSignature()).isEqualTo(editedSignature);
+      assertThat(user.getEmail()).isEqualTo(editedEmail);
+    }
+  }
 }

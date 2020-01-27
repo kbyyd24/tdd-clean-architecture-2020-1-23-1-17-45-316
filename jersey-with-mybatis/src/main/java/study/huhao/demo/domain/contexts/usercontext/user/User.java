@@ -1,8 +1,10 @@
 package study.huhao.demo.domain.contexts.usercontext.user;
 
 import java.util.UUID;
+import lombok.Getter;
 import study.huhao.demo.domain.core.concepts.AggregateRoot;
 
+@Getter
 public class User implements AggregateRoot {
 
   private UUID id;
@@ -27,23 +29,10 @@ public class User implements AggregateRoot {
     this.email = email;
   }
 
-  public UUID getId() {
-    return id;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public String getSignature() {
-    return signature;
-  }
-
-  public String getEmail() {
-    return email;
+  public void edit(String userName, String displayName, String signature, String email) {
+    this.userName = userName;
+    this.displayName = displayName;
+    this.signature = signature;
+    this.email = email;
   }
 }
