@@ -19,4 +19,8 @@ public class EditUserUseCase {
   public User create(String userName, String displayName, String signature, String email) {
     return userService.create(userName, displayName, signature, email);
   }
+
+  public void edit(String id, String userName, String displayName, String signature, String email) {
+    userService.edit(id, userName, displayName, signature, email);
+  }
 }
