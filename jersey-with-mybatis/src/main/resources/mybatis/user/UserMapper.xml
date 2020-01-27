@@ -6,5 +6,10 @@
     insert into user (id, user_name, display_name, signature, email)
     values (#{user.id}, #{user.userName}, #{user.displayName}, #{user.signature}, #{user.email});
   </insert>
+  <select id="findById" resultMap="records.user">
+    select *
+    from user
+    where user.id = #{id}
+  </select>
 
 </mapper>
