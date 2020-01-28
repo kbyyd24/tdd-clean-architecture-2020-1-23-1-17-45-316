@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
@@ -73,4 +74,28 @@ class UserServiceTest {
     }
   }
 
+  @Nested
+  class getUser {
+
+    @Test
+    void should_get_user_success() {
+      User mockUser = mock(User.class);
+      String id = UUID.randomUUID().toString();
+      given(userRepository.findById(id)).willReturn(Optional.of(mockUser));
+
+      User user = userService.get(id);
+
+      assertThat(user).isEqualTo(mockUser);
+    }
+
+    @Test
+    void should_throw_exception_when_get_not_exist_user() {
+      String id = UUID.randomUUID().toString();
+      given(userRepository.findById(id)).willReturn(Optional.empty());
+
+      assertThatExceptionOfType(EntityNotFoundException.class)
+          .isThrownBy(() -> userService.get(id))
+          .withMessage("cannot find the user with id " + id);
+    }
+  }
 }

@@ -24,4 +24,8 @@ public class UserService implements Service {
     user.edit(userName, displayName, signature, email);
     userRepository.save(user);
   }
+
+  public User get(String id) {
+    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(User.class, UUID.fromString(id)));
+  }
 }
