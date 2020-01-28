@@ -16,4 +16,6 @@ public interface UserMapper {
   Optional<UserPO> findById(@Param("id") String id);
 
   boolean existById(@Param("id") String id);
+
+  void delete(@Param("id") String id);
 }
