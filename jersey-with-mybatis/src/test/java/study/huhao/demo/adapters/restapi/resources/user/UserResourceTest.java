@@ -133,4 +133,46 @@ class UserResourceTest extends ResourceTest {
           .body("email", is(email));
     }
   }
+
+  @Nested
+  class deleteUser {
+
+    @Test
+    void should_delete_user_success() {
+      String id = given()
+          .contentType(ContentType.JSON)
+          .body(ImmutableMap.of(
+              "userName", "kobe_bryant",
+              "displayName", "Kobe BryantName",
+              "signature", "Mamba out",
+              "email", "kbryant@nba.com"
+          ))
+          .when()
+          .post("/user")
+          .path("id");
+
+      given()
+          .when()
+          .delete("/user/{id}", ImmutableMap.of("id", id))
+          .then()
+          .statusCode(HttpStatus.NO_CONTENT.value());
+
+      given()
+          .when()
+          .get("/user/{id}", ImmutableMap.of("id", id))
+          .then()
+          .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void should_return_not_found_when_delete_not_exist_user() {
+      String id = UUID.randomUUID().toString();
+      given()
+          .when()
+          .delete("/users/{id}", ImmutableMap.of("id", id))
+          .then()
+          .statusCode(HttpStatus.NOT_FOUND.value())
+          .body("message", equalTo("cannot find the user with id " + id));
+    }
+  }
 }

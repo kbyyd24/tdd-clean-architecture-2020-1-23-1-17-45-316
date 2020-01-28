@@ -1,6 +1,7 @@
 package study.huhao.demo.adapters.restapi.resources.user;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
@@ -30,5 +31,10 @@ public class UserSubResource {
   @GET
   public UserDto get() {
     return UserDto.of(queryUserUseCase.get(id));
+  }
+
+  @DELETE
+  public void delete() {
+    editUserUseCase.delete(id);
   }
 }
