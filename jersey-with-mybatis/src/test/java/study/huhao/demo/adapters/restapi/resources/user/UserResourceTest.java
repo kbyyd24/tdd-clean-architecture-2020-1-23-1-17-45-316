@@ -101,4 +101,36 @@ class UserResourceTest extends ResourceTest {
     }
   }
 
+  @Nested
+  class getUser {
+
+    @Test
+    void should_get_user_success() {
+      String username = "kobe_bryant";
+      String displayName = "Kobe BryantName";
+      String signature = "Mamba out";
+      String email = "kbryant@nba.com";
+      String id = given()
+          .contentType(ContentType.JSON)
+          .body(ImmutableMap.of(
+              "userName", username,
+              "displayName", displayName,
+              "signature", signature,
+              "email", email
+          ))
+          .when()
+          .post("/user")
+          .path("id");
+
+      given()
+          .when()
+          .get("/user/{id}", ImmutableMap.of("id", id))
+          .then()
+          .statusCode(HttpStatus.OK.value())
+          .body("userName", is(username))
+          .body("displayName", is(displayName))
+          .body("signature", is(signature))
+          .body("email", is(email));
+    }
+  }
 }
