@@ -30,4 +30,14 @@ public class UserRepositoryImpl implements UserRepository {
   public Optional<User> findById(String id) {
     return userMapper.findById(id).map(UserPO::toDomainModel);
   }
+
+  @Override
+  public void deleteById(String id) {
+
+  }
+
+  @Override
+  public boolean existById(String id) {
+    return false;
+  }
 }

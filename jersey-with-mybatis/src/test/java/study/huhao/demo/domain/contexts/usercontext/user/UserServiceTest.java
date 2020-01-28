@@ -98,4 +98,28 @@ class UserServiceTest {
           .withMessage("cannot find the user with id " + id);
     }
   }
+
+  @Nested
+  class deleteUser{
+
+    @Test
+    void should_delete_user_success() {
+      String id = UUID.randomUUID().toString();
+      given(userRepository.existById(id)).willReturn(true);
+
+      userService.delete(id);
+
+      verify(userRepository).deleteById(id);
+    }
+
+    @Test
+    void should_throw_exception_when_delete_not_exist_user() {
+      String id = UUID.randomUUID().toString();
+      given(userRepository.existById(id)).willReturn(false);
+
+      assertThatExceptionOfType(EntityNotFoundException.class)
+          .isThrownBy(() -> userService.delete(id))
+          .withMessage("cannot find the user with id " + id);
+    }
+  }
 }
