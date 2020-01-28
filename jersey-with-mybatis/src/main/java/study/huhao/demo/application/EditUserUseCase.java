@@ -23,4 +23,8 @@ public class EditUserUseCase {
   public void edit(String id, String userName, String displayName, String signature, String email) {
     userService.edit(id, userName, displayName, signature, email);
   }
+
+  public void delete(String id) {
+    userService.delete(id);
+  }
 }
