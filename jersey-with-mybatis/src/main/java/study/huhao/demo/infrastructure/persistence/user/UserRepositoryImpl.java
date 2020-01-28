@@ -21,8 +21,8 @@ public class UserRepositoryImpl implements UserRepository {
   public void save(User user) {
     Consumer<User> saveAction =
         userMapper.existById(user.getId().toString())
-            ? newUser -> userMapper.insert(UserPO.of(newUser))
-            : existUser -> userMapper.update(UserPO.of(existUser));
+            ? newUser -> userMapper.update(UserPO.of(newUser))
+            : existUser -> userMapper.insert(UserPO.of(existUser));
     saveAction.accept(user);
   }
 

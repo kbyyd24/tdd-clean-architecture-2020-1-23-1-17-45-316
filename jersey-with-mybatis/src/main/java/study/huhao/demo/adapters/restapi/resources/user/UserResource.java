@@ -4,6 +4,7 @@ import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,5 +33,10 @@ public class UserResource {
 
     URI uri = UriBuilder.fromResource(this.getClass()).path("{id}").build(user.getId());
     return Response.created(uri).entity(UserDto.of(user)).build();
+  }
+
+  @Path("{id}")
+  public UserSubResource userSubResource(@PathParam("id") String id) {
+    return new UserSubResource(id, editUserUseCase);
   }
 }
