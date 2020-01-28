@@ -132,6 +132,17 @@ class UserResourceTest extends ResourceTest {
           .body("signature", is(signature))
           .body("email", is(email));
     }
+
+    @Test
+    void should_return_not_found_when_get_not_exist_user() {
+      String id = UUID.randomUUID().toString();
+      given()
+          .when()
+          .get("/user/{id}", ImmutableMap.of("id", id))
+          .then()
+          .statusCode(HttpStatus.NOT_FOUND.value())
+          .body("message", equalTo("cannot find the user with id " + id));
+    }
   }
 
   @Nested
