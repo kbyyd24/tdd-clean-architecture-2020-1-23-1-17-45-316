@@ -33,11 +33,11 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public void deleteById(String id) {
-
+    userMapper.delete(id);
   }
 
   @Override
   public boolean existById(String id) {
-    return false;
+    return userMapper.existById(id);
   }
 }
