@@ -182,7 +182,7 @@ class UserResourceTest extends ResourceTest {
       String id = UUID.randomUUID().toString();
       given()
           .when()
-          .delete("/users/{id}", ImmutableMap.of("id", id))
+          .delete("/user/{id}", ImmutableMap.of("id", id))
           .then()
           .statusCode(HttpStatus.NOT_FOUND.value())
           .body("message", equalTo("cannot find the user with id " + id));
