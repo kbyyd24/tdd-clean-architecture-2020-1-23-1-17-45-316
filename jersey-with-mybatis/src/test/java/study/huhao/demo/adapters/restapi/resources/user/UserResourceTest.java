@@ -2,12 +2,14 @@ package study.huhao.demo.adapters.restapi.resources.user;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.collect.ImmutableMap;
 import io.restassured.http.ContentType;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -184,6 +186,56 @@ class UserResourceTest extends ResourceTest {
           .then()
           .statusCode(HttpStatus.NOT_FOUND.value())
           .body("message", equalTo("cannot find the user with id " + id));
+    }
+  }
+
+  @Nested
+  class allUser {
+
+    @Test
+    void should_get_user_with_pagination() {
+      IntStream.range(0, 5)
+          .mapToObj(idx -> ImmutableMap.of(
+              "userName", "kobe_bryant" + idx,
+              "displayName", "Kobe BryantName" + idx,
+              "signature", "Mamba out" + idx,
+              "email", "kbryant@nba.com" + idx
+          ))
+          .forEach(request ->
+              given()
+                  .contentType(ContentType.JSON)
+                  .body(request)
+                  .when()
+                  .post("/user"));
+
+      given()
+          .param("limit", 3)
+          .param("offset", 3)
+          .when()
+          .get("/user")
+          .then()
+          .statusCode(HttpStatus.OK.value())
+          .contentType(ContentType.JSON)
+          .body("results", hasSize(2))
+          .body("limit", equalTo(3))
+          .body("offset", equalTo(3))
+          .body("total", equalTo(5));
+    }
+
+    @Test
+    void should_get_empty_result_when_not_found() {
+      given()
+          .param("limit", 3)
+          .param("offset", 4)
+          .when()
+          .get("/user")
+          .then()
+          .statusCode(HttpStatus.OK.value())
+          .contentType(ContentType.JSON)
+          .body("results", hasSize(0))
+          .body("limit", equalTo(3))
+          .body("offset", equalTo(4))
+          .body("total", equalTo(0));
     }
   }
 }
