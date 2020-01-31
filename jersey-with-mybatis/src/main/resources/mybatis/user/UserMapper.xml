@@ -9,10 +9,10 @@
 
   <update id="update">
     update user
-    set user_name = #{user.userName},
+    set user_name    = #{user.userName},
         display_name = #{user.displayName},
-        signature = #{user.signature},
-        email = #{user.email}
+        signature    = #{user.signature},
+        email        = #{user.email}
     where id = #{user.id}
   </update>
 
@@ -32,6 +32,17 @@
     select *
     from user
     where user.id = #{id}
+  </select>
+
+  <select id="countTotalByCriteria" resultType="java.lang.Long">
+    select count(*)
+    from user;
+  </select>
+
+  <select id="selectAllByCriteria" resultMap="records.user">
+    select *
+    from user
+    limit #{criteria.limit} offset #{criteria.offset};
   </select>
 
 </mapper>

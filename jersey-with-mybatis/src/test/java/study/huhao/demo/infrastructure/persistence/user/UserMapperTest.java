@@ -3,11 +3,14 @@ package study.huhao.demo.infrastructure.persistence.user;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import study.huhao.demo.domain.contexts.usercontext.user.UserCriteria;
 import study.huhao.demo.infrastructure.persistence.MapperTest;
 
 public class UserMapperTest extends MapperTest {
@@ -85,5 +88,30 @@ public class UserMapperTest extends MapperTest {
     userMapper.delete(id);
 
     assertThat(userMapper.existById(id)).isFalse();
+  }
+
+  @Test
+  void countTotalByCriteria() {
+    IntStream.range(0, 5)
+        .mapToObj(idx -> new UserPO(UUID.randomUUID().toString(), "username" + idx, "displayName" + idx, "signature" + idx, "email" + idx))
+        .forEach(userMapper::insert);
+    UserCriteria criteria = new UserCriteria(3, 3);
+
+    long total = userMapper.countTotalByCriteria(criteria);
+
+    assertThat(total).isEqualTo(5);
+  }
+
+  @Test
+  void selectAllByCriteria() {
+    IntStream.range(0, 5)
+        .mapToObj(idx -> new UserPO(UUID.randomUUID().toString(), "username" + idx, "displayName" + idx, "signature" + idx, "email" + idx))
+        .forEach(userMapper::insert);
+    UserCriteria criteria = new UserCriteria(3, 3);
+
+    List<UserPO> result = userMapper.selectAllByCriteria(criteria);
+
+    assertThat(result).hasSize(2);
+    assertThat(result.stream().map(UserPO::getUserName).map(username -> username.replace("username", ""))).contains("3", "4");
   }
 }

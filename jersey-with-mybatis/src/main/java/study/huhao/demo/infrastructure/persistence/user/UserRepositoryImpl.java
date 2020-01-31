@@ -1,5 +1,8 @@
 package study.huhao.demo.infrastructure.persistence.user;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,10 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Page<User> findAllWithPagination(UserCriteria criteria) {
-    return null;
+    long total = userMapper.countTotalByCriteria(criteria);
+    List<UserPO> userPOs = userMapper.selectAllByCriteria(criteria);
+    List<User> users = userPOs.stream().map(UserPO::toDomainModel).collect(toList());
+
+    return new Page<>(users, criteria.getLimit(), criteria.getOffset(), total);
   }
 }
