@@ -5,7 +5,9 @@ import java.util.function.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import study.huhao.demo.domain.contexts.usercontext.user.User;
+import study.huhao.demo.domain.contexts.usercontext.user.UserCriteria;
 import study.huhao.demo.domain.contexts.usercontext.user.UserRepository;
+import study.huhao.demo.domain.core.common.Page;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -39,5 +41,10 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public boolean existById(String id) {
     return userMapper.existById(id);
+  }
+
+  @Override
+  public Page<User> findAllWithPagination(UserCriteria criteria) {
+    return null;
   }
 }

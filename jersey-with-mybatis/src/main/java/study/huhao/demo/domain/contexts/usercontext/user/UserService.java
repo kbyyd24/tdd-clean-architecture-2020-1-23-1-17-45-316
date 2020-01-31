@@ -2,6 +2,7 @@ package study.huhao.demo.domain.contexts.usercontext.user;
 
 import java.util.UUID;
 import java.util.function.Function;
+import study.huhao.demo.domain.core.common.Page;
 import study.huhao.demo.domain.core.common.excpetions.EntityNotFoundException;
 import study.huhao.demo.domain.core.concepts.Service;
 
@@ -37,5 +38,9 @@ public class UserService implements Service {
       throw NOT_FOUND_EXCEPTION.apply(id);
     }
     userRepository.deleteById(id);
+  }
+
+  public Page<User> query(UserCriteria criteria) {
+    return userRepository.findAllWithPagination(criteria);
   }
 }

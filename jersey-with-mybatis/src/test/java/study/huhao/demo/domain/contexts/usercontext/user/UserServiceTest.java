@@ -122,4 +122,17 @@ class UserServiceTest {
           .withMessage("cannot find the user with id " + id);
     }
   }
+
+  @Nested
+  class getAllUser{
+
+    @Test
+    void should_get_all_user_with_pagination() {
+      UserCriteria userCriteria = mock(UserCriteria.class);
+
+      userService.query(userCriteria);
+
+      verify(userRepository).findAllWithPagination(userCriteria);
+    }
+  }
 }
